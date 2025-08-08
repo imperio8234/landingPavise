@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
-import { ChevronLeft, ChevronRight, X, Plus, Minus, Search, Clock } from 'lucide-react'
+import { ChevronLeft, ChevronRight, X, Plus, Minus, Search, Clock, Menu, ShoppingCart } from 'lucide-react'
 import { PRODUCTS, useCart } from './context/productsCardContext'
 import PromoCarousel from './PromoCarousel'
 
@@ -32,14 +32,12 @@ export default function Header() {
     addToCart
   } = useCart()
 
-
-
   const handleAddToCart = (product) => {
     addToCart(product, 1);
     setIsCartOpen(true)
-    // Opcional: mostrar una notificación o feedback al usuario
     console.log(`${product.name} agregado al carrito`);
   };
+
   const handleOpenCart = () => {
     setIsCartOpen(true)
     setIsCartOpening(true)
@@ -141,9 +139,6 @@ export default function Header() {
     shop: {
       categories: [
         { name: 'Skincare', items: ['Cleansers', 'Moisturizers', 'Serums', 'Treatments'] },
-        //{ name: 'Bundles', items: ['Starter Sets', 'Complete Regimens', 'Travel Kits'] },
-        //{ name: 'Refills', items: ['Cleanser Refills', 'Moisturizer Refills', 'Treatment Refills'] },
-        //{ name: 'UV Camera', items: ['UV Analysis Device', 'Accessories', 'Replacement Parts'] }
       ]
     },
     science: {
@@ -170,9 +165,17 @@ export default function Header() {
       )}
 
       {/* Main Header */}
-      <header className="bg-black text-white py-4 px-6  z-40 sticky top-0">
+      <header className="bg-black text-white py-4 px-6 z-40 sticky top-0">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
-          {/* Left Navigation */}
+          {/* Mobile Menu Button - Left */}
+          <button
+            className="md:hidden flex items-center justify-center w-10 h-10"
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+          >
+            <Menu size={24} />
+          </button>
+
+          {/* Left Navigation - Desktop Only */}
           <nav className="hidden md:flex items-center space-x-8 relative">
             {/* SHOP Dropdown */}
             <div
@@ -410,7 +413,7 @@ export default function Header() {
             </Link>
           </div>
 
-          {/* Right Navigation */}
+          {/* Right Navigation - Desktop */}
           <div className="hidden md:flex items-center space-x-6">
             <Link href="/partner-locator" className="hover:text-gray-300 text-sm">
               PARTNER LOCATOR
@@ -435,44 +438,172 @@ export default function Header() {
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Cart Button - Right */}
           <button
-            className="md:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="md:hidden flex items-center justify-center w-10 h-10 relative"
+            onClick={handleOpenCart}
           >
-            ☰
+            <ShoppingCart size={24} />
+            {getTotalItems() > 0 && (
+              <span className="absolute -top-2 -right-2 bg-blue-600 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {getTotalItems()}
+              </span>
+            )}
           </button>
         </div>
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden mt-4 pb-4">
-            <nav className="flex flex-col space-y-4">
-              <Link href="/shop/collections" className="hover:text-gray-300">SHOP</Link>
-              <Link href="/science" className="hover:text-gray-300">SCIENCE</Link>
-              <Link href="/lab" className="hover:text-gray-300">IN THE LAB</Link>
-              <Link href="/partner-locator" className="hover:text-gray-300">PARTNER LOCATOR</Link>
+          <div className="md:hidden fixed inset-0 top-0 bg-black z-50 overflow-y-auto">
+            {/* Mobile Menu Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-700">
+              <Link href="/" className="text-2xl font-bold tracking-wider">
+                pavise
+              </Link>
               <button
-                onClick={handleSearchToggle}
-                className="hover:text-gray-300 text-left flex items-center gap-2"
+                onClick={() => setIsMenuOpen(false)}
+                className="text-white hover:text-gray-300"
               >
-                <Search size={16} />
-                SEARCH
+                <X size={24} />
               </button>
-              <Link href="/account" className="hover:text-gray-300">ACCOUNT</Link>
-              <button
-                onClick={handleOpenCart}
-                className="hover:text-gray-300 text-left"
-              >
-                CART({getTotalItems()})
-              </button>
-            </nav>
+            </div>
+
+            {/* Mobile Menu Content */}
+            <div className="p-6">
+              {/* Shop Section - Expanded by default */}
+              <div className="mb-8">
+                <h2 className="text-xl font-semibold mb-4 pb-2 border-b border-gray-700">SHOP</h2>
+                
+                {/* Categories */}
+                <div className="space-y-6 mb-6">
+                  {menuData.shop.categories.map((category, index) => (
+                    <div key={index} className="space-y-3">
+                      <h3 className="font-semibold text-white text-base">
+                        {category.name}
+                      </h3>
+                      <ul className="space-y-2 ml-4">
+                        {category.items.map((item, itemIndex) => (
+                          <li key={itemIndex}>
+                            <Link
+                              href={`/shop/collections`}
+                              className="text-gray-300 hover:text-white text-sm transition-colors duration-200 block py-1"
+                              onClick={() => setIsMenuOpen(false)}
+                            >
+                              {item}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Featured Products */}
+                <div>
+                  <h3 className="font-semibold text-white border-b border-gray-700 pb-3 mb-4 text-base">
+                    Featured Products
+                  </h3>
+                  <div className="grid grid-cols-1 gap-4">
+                    {PRODUCTS.slice(0, 3).map((product, i) => (
+                      <div
+                        key={product.id}
+                        className="flex gap-4 bg-gray-900 rounded-xl overflow-hidden p-4"
+                      >
+                        {/* Product Image */}
+                        <div className="w-20 h-20 flex-shrink-0 overflow-hidden rounded-lg">
+                          <img
+                            src={product.image}
+                            alt={product.name}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+
+                        {/* Product Info */}
+                        <div className="flex-1">
+                          <h4 className="text-white font-medium text-sm">
+                            {product.name}
+                          </h4>
+                          {product.price && (
+                            <p className="text-gray-400 text-xs mt-1">
+                              ${product.price}
+                            </p>
+                          )}
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              handleAddToCart(product);
+                              setIsMenuOpen(false);
+                            }}
+                            className="bg-white text-black px-3 py-1 font-semibold text-xs tracking-wider hover:bg-gray-100 transition-all duration-300 rounded mt-2"
+                          >
+                            ADD TO CART
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Shop All Link */}
+                <div className="mt-6 text-center">
+                  <Link
+                    href="/shop/collections"
+                    className="inline-flex items-center text-blue-400 hover:text-blue-300 font-semibold transition-colors duration-200 text-base"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Shop All →
+                  </Link>
+                </div>
+              </div>
+
+              {/* Other Menu Items */}
+              <nav className="space-y-4">
+                <Link 
+                  href="/science" 
+                  className="block text-lg font-medium hover:text-gray-300 py-2 border-b border-gray-700"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  SCIENCE
+                </Link>
+                <Link 
+                  href="/lab" 
+                  className="block text-lg font-medium hover:text-gray-300 py-2 border-b border-gray-700"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  IN THE LAB
+                </Link>
+                <Link 
+                  href="/partner-locator" 
+                  className="block text-lg font-medium hover:text-gray-300 py-2 border-b border-gray-700"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  PARTNER LOCATOR
+                </Link>
+                <button
+                  onClick={() => {
+                    handleSearchToggle();
+                    setIsMenuOpen(false);
+                  }}
+                  className="block text-lg font-medium hover:text-gray-300 py-2 border-b border-gray-700 text-left w-full flex items-center gap-2"
+                >
+                  <Search size={16} />
+                  SEARCH
+                </button>
+                <Link 
+                  href="/account" 
+                  className="block text-lg font-medium hover:text-gray-300 py-2 border-b border-gray-700"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  ACCOUNT
+                </Link>
+              </nav>
+            </div>
           </div>
         )}
       </header>
 
       {/* Search Dropdown Panel */}
-
       {isSearchOpen && (
         <>
           <div className="top-32 left-0 w-full bg-black/95 backdrop-blur-sm z-[1000] search-container">
