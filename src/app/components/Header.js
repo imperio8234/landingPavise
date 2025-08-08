@@ -558,7 +558,7 @@ export default function Header() {
                     ) : (
                       /* No Results Found */
                       <div className="text-center py-6 sm:py-8">
-                        <p className="text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">No products found for "{searchQuery}"</p>
+                        <p className="text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">No products found for {searchQuery}</p>
                         <p className="text-xs sm:text-sm text-gray-500">Try searching for:</p>
                         <div className="flex flex-wrap justify-center gap-1 sm:gap-2 mt-2">
                           {['cleanser', 'moisturizer', 'serum', 'UV protection'].map((suggestion, index) => (
