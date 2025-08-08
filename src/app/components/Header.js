@@ -237,7 +237,7 @@ export default function Header() {
 
               {activeDropdown === 'science' && (
                 <div
-                  className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 w-screen max-w-3xl bg-black border border-gray-700 rounded-lg shadow-xl z-50 opacity-0 animate-fadeIn"
+                  className="absolute top-full  mt-2 w-screen max-w-3xl bg-black border border-gray-700 rounded-lg shadow-xl z-50 opacity-0 animate-fadeIn"
                   onMouseEnter={() => handleDropdownEnter('science')}
                   onMouseLeave={handleDropdownLeave}
                 >
