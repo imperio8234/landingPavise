@@ -1,103 +1,69 @@
-import Image from "next/image";
+import MediaMarquee from './components/buttons/mediaMarque'
+import DynamicVideoButton from './components/buttons/playVideoButton'
+import Hero from './components/Hero'
+import ProductShowcase from './components/ProductShowCase'
+import DiamondCoreVideoSection from './components/sections'
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      <Hero />
+      <MediaMarquee />
+      <ProductShowcase />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+      {/* DiamondCore Results Section */}
+      <section className="bg-black text-white py-20">
+        <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+
+          {/* Text Section */}
+          <div>
+            <h2 className="text-4xl md:text-5xl font-light mb-6">
+              Skin that <span className="font-semibold">looks</span> and <span className="font-semibold">behaves</span> younger
+            </h2>
+            <p className="text-lg mb-10 ">
+              Patented DiamondCore® technology targets the root causes of aging to mimic and enhance skin's own regenerative processes.
+            </p>
+
+            <div className="grid sm:grid-cols-2 gap-6">
+              <div>
+                <span className="text-4xl font-bold  px-2">97%</span>
+                <p className="mt-2">noticed visibly firmer, tighter skin.</p>
+              </div>
+              <div>
+                <span className="text-4xl font-bold  px-2">97%</span>
+                <p className=" mt-2">noticed significant reduction in overall stress and damage.</p>
+              </div>
+              <div>
+                <span className="text-4xl font-bold  px-2">97%</span>
+                <p className=" mt-2">noticed significantly brighter and more even-toned skin.</p>
+              </div>
+              <div>
+                <span className="text-4xl font-bold  px-2">94%</span>
+                <p className=" mt-2">noticed visibly reduced expression lines and wrinkles.</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Video Section */}
+          <div className="relative rounded-2xl overflow-hidden">
+            <video
+              src="https://player.vimeo.com/progressive_redirect/playback/1008100783/rendition/1080p/file.mp4?loc=external&signature=0e6d7281cb5da43d5220fd4806c32aee63277f1a9b9ef6d0770d894ba6183ace"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="w-full h-full object-cover"
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+            <span className="absolute top-4 right-4 text-sm">EXPRESSION LINES + WRINKLES</span>
+          </div>
+
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
-  );
+      </section>
+
+
+      {/* Call to Action Section */}
+      {/* DiamondCore Technology Results Section */}
+      <DiamondCoreVideoSection />
+    </>
+  )
 }
