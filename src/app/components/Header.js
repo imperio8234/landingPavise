@@ -32,14 +32,14 @@ export default function Header() {
     addToCart
   } = useCart()
 
-  
-  
-    const handleAddToCart = (product) => {
-        addToCart(product, 1);
-        setIsCartOpen(true)
-        // Opcional: mostrar una notificación o feedback al usuario
-        console.log(`${product.name} agregado al carrito`);
-    };
+
+
+  const handleAddToCart = (product) => {
+    addToCart(product, 1);
+    setIsCartOpen(true)
+    // Opcional: mostrar una notificación o feedback al usuario
+    console.log(`${product.name} agregado al carrito`);
+  };
   const handleOpenCart = () => {
     setIsCartOpen(true)
     setIsCartOpening(true)
@@ -170,7 +170,7 @@ export default function Header() {
       )}
 
       {/* Main Header */}
-      <header className="bg-black text-white py-4 px-6 relative z-40">
+      <header className="bg-black text-white py-4 px-6  z-40 sticky top-0">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Left Navigation */}
           <nav className="hidden md:flex items-center space-x-8 relative">
@@ -373,7 +373,7 @@ export default function Header() {
         {isMenuOpen && (
           <div className="md:hidden mt-4 pb-4">
             <nav className="flex flex-col space-y-4">
-              <Link href="/shop" className="hover:text-gray-300">SHOP</Link>
+              <Link href="/shop/collections" className="hover:text-gray-300">SHOP</Link>
               <Link href="/science" className="hover:text-gray-300">SCIENCE</Link>
               <Link href="/lab" className="hover:text-gray-300">IN THE LAB</Link>
               <Link href="/partner-locator" className="hover:text-gray-300">PARTNER LOCATOR</Link>
@@ -400,40 +400,41 @@ export default function Header() {
 
       {isSearchOpen && (
         <>
-          <div className="top-32 left-0 w-full bg-black/95 backdrop-blur-sm z-[1000] search-container ">
-            <div className="max-w-7xl mx-auto">
+          <div className="top-32 left-0 w-full bg-black/95 backdrop-blur-sm z-[1000] search-container">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               {/* Search Header */}
-              <div className=" flex justify-center  px-2 py-2 ">
-                <form onSubmit={handleSearchSubmit} className="relative w-80">
-                  <div className="relative rounded-4xl border border-white overflow-hidden">
-                    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
+              <div className="flex justify-center py-4 sm:py-6">
+                <form onSubmit={handleSearchSubmit} className="relative w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
+                  <div className="relative rounded-full border border-white overflow-hidden">
+                    <Search className="absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 text-gray-400" size={16} />
                     <input
                       ref={searchInputRef}
                       type="text"
                       value={searchQuery}
                       onChange={(e) => handleSearch(e.target.value)}
                       placeholder="Search products..."
-                      className="w-full  text-white pl-12 pr-12 py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
+                      className="w-full text-white pl-10 sm:pl-12 pr-10 sm:pr-12 py-2 sm:py-3 text-sm sm:text-base rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200"
                     />
                   </div>
                   <button
                     type="button"
                     onClick={handleSearchToggle}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200"
+                    className="absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-200"
                   >
-                    <X size={20} />
+                    <X size={16} />
                   </button>
                 </form>
               </div>
 
               {/* Search Content */}
-              <div className="bg-black text-white max-h-96 overflow-y-auto">
+              <div className="bg-black text-white max-h-[70vh] sm:max-h-[75vh] overflow-y-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 {/* No search query */}
                 {!searchQuery && (
-                  <div className="p-6">
-                    <div className="mb-6">
-                      <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-                        <Clock size={18} />
+                  <div className="p-4 sm:p-6">
+                    {/* Recent Searches */}
+                    <div className="mb-4 sm:mb-6">
+                      <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4 flex items-center gap-2">
+                        <Clock size={16} className="sm:w-5 sm:h-5" />
                         Recent Searches
                       </h3>
                       <div className="flex flex-wrap gap-2">
@@ -441,7 +442,7 @@ export default function Header() {
                           <button
                             key={index}
                             onClick={() => handleSearch(search)}
-                            className="bg-gray-800 hover:bg-gray-700 px-3 py-2 rounded-full text-sm transition-colors duration-200"
+                            className="bg-gray-800 hover:bg-gray-700 px-2 sm:px-3 py-1 sm:py-2 rounded-full text-xs sm:text-sm transition-colors duration-200"
                           >
                             {search}
                           </button>
@@ -449,14 +450,15 @@ export default function Header() {
                       </div>
                     </div>
 
+                    {/* Popular Categories */}
                     <div>
-                      <h3 className="text-lg font-semibold mb-4">Popular Categories</h3>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Popular Categories</h3>
+                      <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-4">
                         {['Cleansers', 'Moisturizers', 'Serums', 'UV Protection'].map((category, index) => (
                           <button
                             key={index}
                             onClick={() => handleSearch(category)}
-                            className="bg-gray-800 hover:bg-gray-700 p-4 rounded-lg text-center transition-colors duration-200"
+                            className="bg-gray-800 hover:bg-gray-700 p-2 sm:p-4 rounded-lg text-center text-xs sm:text-sm transition-colors duration-200"
                           >
                             {category}
                           </button>
@@ -468,28 +470,30 @@ export default function Header() {
 
                 {/* Loading */}
                 {isSearching && (
-                  <div className="p-6 text-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto"></div>
-                    <p className="mt-2 text-gray-400">Searching...</p>
+                  <div className="p-4 sm:p-6 text-center">
+                    <div className="animate-spin rounded-full h-6 w-6 sm:h-8 sm:w-8 border-b-2 border-white mx-auto"></div>
+                    <p className="mt-2 text-gray-400 text-sm">Searching...</p>
                   </div>
                 )}
 
                 {/* Search Results */}
                 {searchQuery && !isSearching && (
-                  <div className="p-6">
+                  <div className="p-4 sm:p-6">
                     {searchResults.length > 0 ? (
                       <>
-                        <h3 className="text-lg font-semibold mb-4">
+                        <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
                           Search Results ({searchResults.length})
                         </h3>
-                        <div className="space-y-4 grid grid-cols-3">
+
+                        {/* Grid responsivo para resultados */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 pb-4">
                           {searchResults.map((product, index) => (
                             <div
                               key={product.id}
-                              className="group relative bg-gray-900 rounded-2xl  transition-all duration-500 ease-out hover:transform hover:scale-105 cursor-pointer h-12/12 w-8/12"
+                              className="group relative bg-gray-900 rounded-xl sm:rounded-2xl overflow-hidden transition-all duration-500 ease-out hover:transform hover:scale-105 cursor-pointer w-full"
                             >
                               {/* Product Image Container */}
-                              <div className="relative aspect-square overflow-hidden rounded-t-2xl">
+                              <div className="relative aspect-square overflow-hidden rounded-t-xl sm:rounded-t-2xl">
                                 {/* Default Image */}
                                 <img
                                   src={product.image}
@@ -512,7 +516,7 @@ export default function Header() {
                                       e.stopPropagation();
                                       handleAddToCart(product);
                                     }}
-                                    className="bg-white cursor-pointer text-black px-6 py-3 font-semibold text-sm tracking-wider hover:bg-gray-100 transition-all duration-300 ease-out transform translate-y-4 group-hover:translate-y-0"
+                                    className="bg-white cursor-pointer text-black px-3 py-2 sm:px-6 sm:py-3 font-semibold text-xs sm:text-sm tracking-wider hover:bg-gray-100 transition-all duration-300 ease-out transform translate-y-4 group-hover:translate-y-0"
                                   >
                                     ADD TO CART
                                   </button>
@@ -520,46 +524,48 @@ export default function Header() {
                               </div>
 
                               {/* Product Info */}
-                              <div className="p-6 text-white">
-                                <div className="flex justify-between items-start mb-3">
-                                  <h3 className="font-semibold text-lg leading-tight">{product.name}</h3>
-                                  <span className="text-white font-bold text-lg ml-2">${product.price}</span>
+                              <Link href={`/shop/product/${product.id}`} className="p-2 sm:p-3 lg:p-4 text-white">
+                                <div className="flex justify-between items-start mb-1 sm:mb-2">
+                                  <h3 className="font-semibold text-xs sm:text-sm lg:text-base leading-tight text-left">{product.name}</h3>
+                                  <span className="text-white font-bold text-xs sm:text-sm lg:text-base ml-1">${product.price}</span>
                                 </div>
 
-                                <p className="text-gray-300 text-sm leading-relaxed">
+                                <p className="text-gray-300 text-xs leading-relaxed text-left line-clamp-2 mb-1 sm:mb-2">
                                   {product.description}
                                 </p>
 
                                 {/* Category Badge */}
-                                <div className="mt-4">
+                                <div className="mt-1 sm:mt-2">
                                   <span className="text-xs font-medium text-gray-400 tracking-wider uppercase">
                                     {product.category}
                                   </span>
                                 </div>
-                              </div>
+                              </Link>
                             </div>
                           ))}
                         </div>
 
-                        <div className="mt-6 text-center">
+                        {/* View All Results Button */}
+                        <div className="mt-4 sm:mt-6 text-center">
                           <Link
                             href={`/search?q=${searchQuery}`}
-                            className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition-colors duration-200"
+                            className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2 text-sm sm:text-base rounded-lg transition-colors duration-200"
                           >
                             View All Results
                           </Link>
                         </div>
                       </>
                     ) : (
-                      <div className="text-center py-8">
-                        <p className="text-gray-400 mb-4">No products found for "{searchQuery}"</p>
-                        <p className="text-sm text-gray-500">Try searching for:</p>
-                        <div className="flex flex-wrap justify-center gap-2 mt-2">
+                      /* No Results Found */
+                      <div className="text-center py-6 sm:py-8">
+                        <p className="text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">No products found for "{searchQuery}"</p>
+                        <p className="text-xs sm:text-sm text-gray-500">Try searching for:</p>
+                        <div className="flex flex-wrap justify-center gap-1 sm:gap-2 mt-2">
                           {['cleanser', 'moisturizer', 'serum', 'UV protection'].map((suggestion, index) => (
                             <button
                               key={index}
                               onClick={() => handleSearch(suggestion)}
-                              className="text-blue-400 hover:text-blue-300 text-sm underline"
+                              className="text-blue-400 hover:text-blue-300 text-xs sm:text-sm underline px-1"
                             >
                               {suggestion}
                             </button>
@@ -586,8 +592,8 @@ export default function Header() {
           {/* Cart Panel */}
           <div
             className={`fixed right-0 top-0 h-full w-full max-w-md bg-black text-white overflow-y-auto transform transition-all duration-600 ease-in-out ${isCartClosing ? 'translate-x-full opacity-0 scale-95' :
-                isCartOpening ? 'translate-x-full opacity-0 scale-95' :
-                  'translate-x-0 opacity-100 scale-100'
+              isCartOpening ? 'translate-x-full opacity-0 scale-95' :
+                'translate-x-0 opacity-100 scale-100'
               }`}
             onClick={(e) => e.stopPropagation()}
             style={{

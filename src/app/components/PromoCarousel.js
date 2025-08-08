@@ -49,7 +49,7 @@ const PromoCarousel = () => {
   if (!isVisible) return null
 
   return (
-    <div className="relative bg-gray-100 text-black overflow-hidden">
+    <div className="sticky top-0 bg-gray-100 text-black overflow-hidden">
       {/* Carousel Container */}
       <div className="flex items-center justify-between px-4 py-3">
         {/* Previous Button */}

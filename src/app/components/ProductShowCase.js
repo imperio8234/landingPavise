@@ -107,23 +107,23 @@ export default function ProductShowcase() {
               </div>
               
               {/* Product Info */}
-              <div className="p-6 text-white">
-                <div className="flex justify-between items-start mb-3">
+              <Link href={`/shop/product/${product.id}`} className="p-6 text-white">
+                <div className="flex justify-between items-start mb-3 m-2">
                   <h3 className="font-semibold text-lg leading-tight">{product.name}</h3>
                   <span className="text-white font-bold text-lg ml-2">{product.price}</span>
                 </div>
                 
-                <p className="text-gray-300 text-sm leading-relaxed">
+                <p className="text-gray-300 text-sm leading-relaxed m-2">
                   {product.description}
                 </p>
                 
                 {/* Category Badge */}
                 <div className="mt-4">
-                  <span className="text-xs font-medium text-gray-400 tracking-wider uppercase">
+                  <span className="text-xs font-medium text-gray-400 tracking-wider uppercase m-2">
                     {product.category}
                   </span>
                 </div>
-              </div>
+              </Link>
             </div>
           ))}
         </div>
