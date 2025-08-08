@@ -141,9 +141,9 @@ export default function Header() {
     shop: {
       categories: [
         { name: 'Skincare', items: ['Cleansers', 'Moisturizers', 'Serums', 'Treatments'] },
-        { name: 'Bundles', items: ['Starter Sets', 'Complete Regimens', 'Travel Kits'] },
-        { name: 'Refills', items: ['Cleanser Refills', 'Moisturizer Refills', 'Treatment Refills'] },
-        { name: 'UV Camera', items: ['UV Analysis Device', 'Accessories', 'Replacement Parts'] }
+        //{ name: 'Bundles', items: ['Starter Sets', 'Complete Regimens', 'Travel Kits'] },
+        //{ name: 'Refills', items: ['Cleanser Refills', 'Moisturizer Refills', 'Treatment Refills'] },
+        //{ name: 'UV Camera', items: ['UV Analysis Device', 'Accessories', 'Replacement Parts'] }
       ]
     },
     science: {
@@ -186,38 +186,113 @@ export default function Header() {
 
               {activeDropdown === 'shop' && (
                 <div
-                  className="absolute top-full left-0 transform  mt-2 w-screen max-w-4xl bg-black border border-gray-700 rounded-lg shadow-xl z-50 opacity-0 animate-fadeIn"
+                  className="absolute top-full left-0 transform mt-2 w-screen max-w-6xl bg-black border border-gray-700 rounded-lg shadow-xl z-50 opacity-0 animate-fadeIn"
                   onMouseEnter={() => handleDropdownEnter('shop')}
                   onMouseLeave={handleDropdownLeave}
                 >
                   <div className="p-8">
-                    <div className="grid grid-cols-4 gap-8">
-                      {menuData.shop.categories.map((category, index) => (
-                        <div key={index} className="space-y-4">
-                          <h3 className="font-semibold text-white border-b border-gray-700 pb-2 text-base">
-                            {category.name}
-                          </h3>
-                          <ul className="space-y-3">
-                            {category.items.map((item, itemIndex) => (
-                              <li key={itemIndex}>
-                                <Link
-                                  href={`/shop/collections`}
-                                  className="text-gray-300 hover:text-white text-sm transition-colors duration-200 block py-1"
-                                >
-                                  {item}
-                                </Link>
-                              </li>
-                            ))}
-                          </ul>
+                    <div className="flex gap-8">
+                      {/* Categorías del menú - Lado izquierdo */}
+                      <div className="flex-shrink-0 w-64">
+                        <div className="grid grid-cols-1 gap-6">
+                          {menuData.shop.categories.map((category, index) => (
+                            <div key={index} className="space-y-3">
+                              <h3 className="font-semibold text-white border-b border-gray-700 pb-2 text-base">
+                                {category.name}
+                              </h3>
+                              <ul className="space-y-2">
+                                {category.items.map((item, itemIndex) => (
+                                  <li key={itemIndex}>
+                                    <Link
+                                      href={`/shop/collections`}
+                                      className="text-gray-300 hover:text-white text-sm transition-colors duration-200 block py-1 hover:pl-2"
+                                    >
+                                      {item}
+                                    </Link>
+                                  </li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))}
                         </div>
-                      ))}
+                      </div>
+
+                      {/* Productos destacados - Lado derecho */}
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-white border-b border-gray-700 pb-3 mb-6 text-base">
+                           Featured Products
+                        </h3>
+                        <div className="grid grid-cols-3 gap-4">
+                          {PRODUCTS.slice(0, 3).map((product, i) => (
+                            <div
+                              key={product.id}
+                              className="group relative bg-gray-900 rounded-xl overflow-hidden transition-all duration-300 hover:transform hover:scale-105 cursor-pointer"
+                            >
+                              {/* Contenedor de imagen del producto */}
+                              <div className="relative aspect-square overflow-hidden">
+                                {/* Imagen por defecto */}
+                                <img
+                                  src={product.image}
+                                  alt={product.name}
+                                  className="w-full h-full object-cover transition-all duration-500 group-hover:scale-110"
+                                />
+
+                                {/* Imagen hover */}
+                                {product.imageHover && (
+                                  <img
+                                    src={product.imageHover}
+                                    alt={`${product.name} hover`}
+                                    className="absolute inset-0 w-full h-full object-cover opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                                  />
+                                )}
+
+                                {/* Overlay con botón */}
+                                <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-all duration-300 flex items-center justify-center">
+                                  <button
+                                    onClick={(e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      handleAddToCart(product);
+                                    }}
+                                    className="bg-white text-black px-4 py-2 font-semibold text-xs tracking-wider hover:bg-gray-100 transition-all duration-300 transform translate-y-4 group-hover:translate-y-0 rounded"
+                                  >
+                                    ADD TO CART
+                                  </button>
+                                </div>
+                              </div>
+
+                              {/* Información del producto */}
+                              <div className="p-3">
+                                <h4 className="text-white font-medium text-sm truncate">
+                                  {product.name}
+                                </h4>
+                                {product.price && (
+                                  <p className="text-gray-400 text-xs mt-1">
+                                    ${product.price}
+                                  </p>
+                                )}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
+
+                    {/* Enlace para ver todo */}
                     <div className="mt-8 pt-6 border-t border-gray-700 text-center">
                       <Link
                         href="/shop/collections"
-                        className="text-blue-400 hover:text-blue-300 font-semibold transition-colors duration-200 text-lg"
+                        className="inline-flex items-center text-blue-400 hover:text-blue-300 font-semibold transition-colors duration-200 text-base group"
                       >
                         Shop All →
+                        <svg
+                          className="w-5 h-5 ml-2 transition-transform duration-200 group-hover:translate-x-1"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
                       </Link>
                     </div>
                   </div>
